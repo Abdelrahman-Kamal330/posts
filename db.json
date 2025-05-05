@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "abdelrahmankamal330@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "30ad",
+      "email": "aliahmed@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "posts": [
+    {
+      "id": "2bbb",
+      "title": "React.js",
+      "content": "JS + HTML = JSX"
+    },
+    {
+      "id": "ece9",
+      "title": "Mo Salah",
+      "content": "test"
+    },
+    {
+      "id": "8da5",
+      "title": "test",
+      "content": "test"
+    }
+  ]
+}
