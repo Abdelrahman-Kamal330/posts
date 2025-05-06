@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "abdelrahmankamal330@gmail.com",
       "password": "123456"
     },
@@ -9,13 +9,24 @@
       "id": "30ad",
       "email": "aliahmed@gmail.com",
       "password": "123456"
+    },
+    {
+      "id": "f9a4",
+      "email": "abdelrahmankamal338@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "e544",
+      "email": "abdelrahmankamal339@gmail.com",
+      "password": "12345678",
+      "createdAt": "2025-05-06T00:54:11.681Z"
     }
   ],
   "posts": [
     {
-      "id": "2bbb",
       "title": "React.js",
-      "content": "JS + HTML = JSX"
+      "content": "JS + HTML = JSX",
+      "id": "2bbb"
     },
     {
       "id": "ece9",

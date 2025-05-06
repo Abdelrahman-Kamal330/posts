@@ -12,23 +12,62 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const validateForm = () => {
+    if (!email.trim()) {
+      setError("Email is required");
+      return false;
+    }
+
+    if (!password.trim()) {
+      setError("Password is required");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
 
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      const checkUser = await api.get(`/users?email=${email}`);
+      const checkUser = await api.get(
+        `/users?email=${encodeURIComponent(email)}`
+      );
 
       if (checkUser.data.length > 0) {
         setError("User with this email already exists");
-        setIsLoading(false);
         return;
       }
 
-      const response = await api.post("/users", { email, password });
+      const newUser = {
+        email,
+        password,
+        createdAt: new Date().toISOString(),
+      };
 
-      dispatch(login(response.data));
+      const response = await api.post("/users", newUser);
+
+      const { password: userPassword, ...secureUserData } = response.data;
+
+      dispatch(login(secureUserData));
       navigate("/dashboard");
     } catch (err) {
       console.error("Signup error:", err);
