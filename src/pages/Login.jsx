@@ -43,16 +43,16 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const res = await api.post("/users", { email, password });
+      const res = await api.get(`/users?email=${email}`);
       // const response = await api.post("/users", newUser);
 
-      if (!res.data.email) {
+      if (res.data.length === 0) {
         setError("No account found with this email");
         setIsLoading(false);
         return;
       }
 
-      const user = res.data;
+      const user = res.data[0];
       if (user.password === password) {
         const { password, ...secureUserData } = user;
         dispatch(login(secureUserData));

@@ -23,12 +23,14 @@ const Signup = () => {
       return false;
     }
 
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address");
       return false;
     }
 
+    
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       return false;
@@ -48,13 +50,17 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const checkUser = await api.post("/users", { email, password });
+      
+      const checkUser = await api.get(
+        `/users?email=${encodeURIComponent(email)}`
+      );
 
-      if (!checkUser.data.email) {
+      if (checkUser.data.length > 0) {
         setError("User with this email already exists");
         return;
       }
 
+      
       const newUser = {
         email,
         password,
@@ -63,6 +69,7 @@ const Signup = () => {
 
       const response = await api.post("/users", newUser);
 
+      // Remove password from user object before storing in state
       const { password: userPassword, ...secureUserData } = response.data;
 
       dispatch(login(secureUserData));
