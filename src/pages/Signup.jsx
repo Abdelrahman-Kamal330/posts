@@ -48,11 +48,9 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const checkUser = await api.get(
-        `/users?email=${encodeURIComponent(email)}`
-      );
+      const checkUser = await api.post("/users", { email, password });
 
-      if (checkUser.data.length > 0) {
+      if (!checkUser.data.email) {
         setError("User with this email already exists");
         return;
       }
