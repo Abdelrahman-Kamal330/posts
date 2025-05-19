@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { User, AuthState } from "../types";
 
 // Load authentication state from localStorage if available
-const loadAuthState = () => {
+const loadAuthState = (): AuthState => {
   try {
     const authState = localStorage.getItem("authState");
     if (authState === null) {
@@ -10,7 +12,7 @@ const loadAuthState = () => {
         user: null,
       };
     }
-    return JSON.parse(authState);
+    return JSON.parse(authState) as AuthState;
   } catch (err) {
     console.error("Failed to load authentication state:", err);
     return {
@@ -20,13 +22,13 @@ const loadAuthState = () => {
   }
 };
 
-const initialState = loadAuthState();
+const initialState: AuthState = loadAuthState();
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state, action) {
+    login(state, action: PayloadAction<User>) {
       state.isAuthenticated = true;
       state.user = action.payload;
 

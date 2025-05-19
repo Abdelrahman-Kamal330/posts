@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deletePost } from "../redux/postSlice";
-import EditPostForm from "./EditPostForm";
+import { useAppDispatch } from "../redux/hook.ts";
+import { deletePost } from "../redux/postSlice.tsx";
+import EditPostForm from "./EditPostForm.tsx";
+import type { Post } from "../types/index.ts";
 
-const PostCard = ({ post }) => {
-  const dispatch = useDispatch();
+interface PostCardProps {
+  post: Post;
+}
+
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = () => {

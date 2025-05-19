@@ -10,10 +10,13 @@ import Posts from "./pages/Posts";
 import NewPost from "./pages/NewPost";
 import { login } from "./redux/authSlice";
 import { isAuthenticated as checkAuth, getCurrentUser } from "./utils/auth";
+import type { RootState } from "./types";
 
-function App() {
+function App(): React.ReactElement {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
 
   // Check authentication status on app load
   useEffect(() => {

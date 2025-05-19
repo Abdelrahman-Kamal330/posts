@@ -1,14 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { Post } from "../types";
 
 const API_URL = "http://localhost:5000/posts";
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
-});
+interface PostData {
+  title: string;
+  content: string;
+}
 
-export const createPost = createAsyncThunk(
+interface UpdatePostParams {
+  id: number;
+  updatedData: PostData;
+}
+
+export const fetchPosts = createAsyncThunk<Post[]>(
+  "posts/fetchPosts",
+  async () => {
+    const response = await axios.get(API_URL);
+    return response.data;
+  }
+);
+
+export const createPost = createAsyncThunk<Post, PostData>(
   "posts/createPost",
   async (postData) => {
     const response = await axios.post(API_URL, postData);
@@ -16,7 +30,7 @@ export const createPost = createAsyncThunk(
   }
 );
 
-export const updatePost = createAsyncThunk(
+export const updatePost = createAsyncThunk<Post, UpdatePostParams>(
   "posts/updatePost",
   async ({ id, updatedData }) => {
     const response = await axios.put(`${API_URL}/${id}`, updatedData);
@@ -24,7 +38,7 @@ export const updatePost = createAsyncThunk(
   }
 );
 
-export const deletePost = createAsyncThunk(
+export const deletePost = createAsyncThunk<number, number>(
   "posts/deletePost",
   async (postId) => {
     await axios.delete(`${API_URL}/${postId}`);
@@ -32,13 +46,21 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+interface PostsState {
+  posts: Post[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
+const initialState: PostsState = {
+  posts: [],
+  status: "idle",
+  error: null,
+};
+
 const postSlice = createSlice({
   name: "posts",
-  initialState: {
-    posts: [],
-    status: "idle",
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -51,7 +73,7 @@ const postSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.error.message || "Failed to fetch posts";
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.posts.push(action.payload);

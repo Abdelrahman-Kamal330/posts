@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useAppDispatch } from "../redux/hook.ts";
 import { useNavigate, Link } from "react-router-dom";
-import { login } from "../redux/authSlice";
-import api from "../utils/api";
+import { login } from "../redux/authSlice.tsx";
+import api from "../utils/api.tsx";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const dispatch = useDispatch();
+const Login: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -32,7 +32,7 @@ function Login() {
     return true;
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -44,7 +44,6 @@ function Login() {
 
     try {
       const res = await api.get(`/users?email=${email}`);
-      // const response = await api.post("/users", newUser);
 
       if (res.data.length === 0) {
         setError("No account found with this email");
@@ -54,7 +53,7 @@ function Login() {
 
       const user = res.data[0];
       if (user.password === password) {
-        const { password, ...secureUserData } = user;
+        const { ...secureUserData } = user;
         dispatch(login(secureUserData));
         navigate("/dashboard");
       } else {
@@ -72,7 +71,7 @@ function Login() {
     <div className="form-container">
       <h2>Login</h2>
       {error && <div className="error-message">{error}</div>}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} role="form">
         <input
           type="email"
           placeholder="Email"
@@ -94,6 +93,6 @@ function Login() {
       </p>
     </div>
   );
-}
+};
 
 export default Login;
