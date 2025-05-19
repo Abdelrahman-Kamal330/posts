@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hook.ts";
+import { logout } from "../redux/authSlice.tsx";
 import { Link } from "react-router-dom";
-import { fetchPosts } from "../redux/postSlice";
-import api from "../utils/api";
+import { fetchPosts } from "../redux/postSlice.tsx";
+import api from "../utils/api.tsx";
 
-const Dashboard = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const posts = useSelector((state) => state.posts.posts);
-  const [userCount, setUserCount] = useState(0);
+const Dashboard: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const posts = useAppSelector((state) => state.posts.posts);
+  const [userCount, setUserCount] = useState<number>(0);
 
   useEffect(() => {
-    // Fetch posts if not already loaded
     if (posts.length === 0) {
       dispatch(fetchPosts());
     }
 
-    // Get user count
     const getUserCount = async () => {
       try {
         const response = await api.get("/users");
@@ -34,7 +32,6 @@ const Dashboard = () => {
     dispatch(logout());
   };
 
-  // Get the date for greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good morning";

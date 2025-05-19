@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/authSlice";
+import { useAppDispatch } from "../redux/hook.ts";
+import { login } from "../redux/authSlice.tsx";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../utils/api";
+import api from "../utils/api.tsx";
 
-const Signup = () => {
-  const dispatch = useDispatch();
+const Signup: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const validateForm = () => {
     if (!email.trim()) {
@@ -23,14 +23,12 @@ const Signup = () => {
       return false;
     }
 
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address");
       return false;
     }
 
-    
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       return false;
@@ -39,7 +37,7 @@ const Signup = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -50,7 +48,6 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      
       const checkUser = await api.get(
         `/users?email=${encodeURIComponent(email)}`
       );
@@ -60,7 +57,6 @@ const Signup = () => {
         return;
       }
 
-      
       const newUser = {
         email,
         password,
@@ -70,7 +66,7 @@ const Signup = () => {
       const response = await api.post("/users", newUser);
 
       // Remove password from user object before storing in state
-      const { password: userPassword, ...secureUserData } = response.data;
+      const { ...secureUserData } = response.data;
 
       dispatch(login(secureUserData));
       navigate("/dashboard");
@@ -85,7 +81,11 @@ const Signup = () => {
   return (
     <div className="form-container">
       <h2>Signup</h2>
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className="error-message" data-testid="error-message">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <input
