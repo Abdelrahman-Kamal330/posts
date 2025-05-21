@@ -69,27 +69,48 @@ const Login: React.FC = () => {
 
   return (
     <div className="form-container">
-      <h2>Login</h2>
-      {error && <div className="error-message">{error}</div>}
-      <form onSubmit={handleLogin} role="form">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" disabled={isLoading}>
+      <h1>Login</h1>
+      {error && (
+        <div className="error-message" role="alert" aria-live="polite">
+          {error}
+        </div>
+      )}
+      <form onSubmit={handleLogin} aria-label="Login form">
+        <div className="form-group">
+          <label htmlFor="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            aria-required="true"
+            aria-invalid={error && error.includes("email") ? "true" : "false"}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            aria-required="true"
+            aria-invalid={
+              error && error.includes("password") ? "true" : "false"
+            }
+          />
+        </div>
+        <button type="submit" disabled={isLoading} aria-busy={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
       <p>
-        Don't have an account? <Link to="/signup">Signup</Link>
+        Don't have an account?{" "}
+        <Link to="/signup" aria-label="Go to signup page">
+          Signup
+        </Link>
       </p>
     </div>
   );

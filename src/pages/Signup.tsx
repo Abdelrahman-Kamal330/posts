@@ -79,40 +79,74 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>Signup</h2>
+    <main className="form-container">
+      <h1>Signup</h1>
       {error && (
-        <div className="error-message" data-testid="error-message">
+        <div
+          className="error-message"
+          data-testid="error-message"
+          role="alert"
+          aria-live="polite"
+        >
           {error}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} aria-label="Signup form">
+        <div className="form-group">
+          <label htmlFor="signup-email">Email</label>
           <input
+            id="signup-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder="Enter your email"
             required
+            aria-required="true"
+            aria-invalid={error && error.includes("email") ? "true" : "false"}
+            aria-describedby={
+              error && error.includes("email") ? "email-error" : undefined
+            }
           />
+          {error && error.includes("email") && (
+            <div id="email-error" className="error-message" role="alert">
+              {error}
+            </div>
+          )}
         </div>
-        <div>
+        <div className="form-group">
+          <label htmlFor="signup-password">Password</label>
           <input
+            id="signup-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            placeholder="Enter your password"
             required
+            aria-required="true"
+            aria-invalid={
+              error && error.includes("password") ? "true" : "false"
+            }
+            aria-describedby={
+              error && error.includes("password") ? "password-error" : undefined
+            }
           />
+          {error && error.includes("password") && (
+            <div id="password-error" className="error-message" role="alert">
+              {error}
+            </div>
+          )}
         </div>
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} aria-busy={isLoading}>
           {isLoading ? "Creating Account..." : "Signup"}
         </button>
       </form>
       <p>
-        Already have an account? <Link to="/">Login</Link>
+        Already have an account?{" "}
+        <Link to="/" aria-label="Go to login page">
+          Login
+        </Link>
       </p>
-    </div>
+    </main>
   );
 };
 

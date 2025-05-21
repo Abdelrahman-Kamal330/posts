@@ -16,18 +16,22 @@ const Posts: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <main>
       <h1>Posts</h1>
       {isLoading ? (
-        <p>Loading...</p>
+        <p role="status" aria-live="polite">
+          Loading posts...
+        </p>
       ) : (
-        <div>
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
+        <div role="feed" aria-busy={isLoading} aria-label="List of blog posts">
+          {posts.length === 0 ? (
+            <p role="status">No posts found</p>
+          ) : (
+            posts.map((post) => <PostCard key={post.id} post={post} />)
+          )}
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

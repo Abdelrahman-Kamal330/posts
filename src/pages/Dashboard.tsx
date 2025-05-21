@@ -40,54 +40,78 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-container">
+    <main className="dashboard-container">
       <div className="dashboard-header">
         <h1>
           {getGreeting()}, {user ? user.email.split("@")[0] : "Guest"}
         </h1>
-        <button className="logout-btn" onClick={handleLogout}>
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+          aria-label="Logout from your account"
+        >
           Logout
         </button>
       </div>
 
-      <div className="dashboard-stats">
-        <div className="stat-card">
-          <h3>Total Posts</h3>
-          <p className="stat-number">{posts.length}</p>
-          <div className="stat-icon posts-icon">📝</div>
+      <section className="dashboard-stats" aria-label="Dashboard Statistics">
+        <div className="stat-card" role="status">
+          <h2>Total Posts</h2>
+          <p className="stat-number" aria-label="Total number of posts">
+            {posts.length}
+          </p>
+          <div className="stat-icon posts-icon" aria-hidden="true">
+            📝
+          </div>
         </div>
 
-        <div className="stat-card">
-          <h3>Users</h3>
-          <p className="stat-number">{userCount}</p>
-          <div className="stat-icon users-icon">👥</div>
+        <div className="stat-card" role="status">
+          <h2>Users</h2>
+          <p className="stat-number" aria-label="Total number of users">
+            {userCount}
+          </p>
+          <div className="stat-icon users-icon" aria-hidden="true">
+            👥
+          </div>
         </div>
 
-        <div className="stat-card">
-          <h3>Your Account</h3>
-          <p className="stat-detail">{user ? user.email : "Not logged in"}</p>
-          <div className="stat-icon account-icon">👤</div>
+        <div className="stat-card" role="status">
+          <h2>Your Account</h2>
+          <p className="stat-detail" aria-label="Current user email">
+            {user ? user.email : "Not logged in"}
+          </p>
+          <div className="stat-icon account-icon" aria-hidden="true">
+            👤
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="dashboard-actions">
-        <Link to="/posts" className="action-card">
-          <div className="action-icon">📋</div>
+      <nav className="dashboard-actions" aria-label="Quick actions">
+        <Link to="/posts" className="action-card" aria-label="View all posts">
+          <div className="action-icon" aria-hidden="true">
+            📋
+          </div>
           <div className="action-text">
-            <h3>View Posts</h3>
+            <h2>View Posts</h2>
             <p>Browse and manage all blog posts</p>
           </div>
         </Link>
 
-        <Link to="/new-post" className="action-card">
-          <div className="action-icon">✏️</div>
+        <Link
+          to="/new-post"
+          className="action-card"
+          aria-label="Create a new post"
+        >
+          <div className="action-icon" aria-hidden="true">
+            ✏️
+          </div>
           <div className="action-text">
-            <h3>Create New Post</h3>
+            <h2>Create New Post</h2>
             <p>Write and publish a new blog post</p>
           </div>
         </Link>
-      </div>
-    </div>
+      </nav>
+    </main>
   );
 };
 

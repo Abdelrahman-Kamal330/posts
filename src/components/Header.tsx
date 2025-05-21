@@ -12,18 +12,31 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header>
-      <nav>
-        <Link to="/">Home</Link>
+    <header role="banner">
+      <nav aria-label="Main navigation">
+        <Link to="/" aria-label="Home page">
+          Home
+        </Link>
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard">Dashboard</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <Link to="/dashboard" aria-label="Dashboard page">
+              Dashboard
+            </Link>
+            <button
+              onClick={handleLogout}
+              aria-label="Logout from your account"
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
+            <Link to="/login" aria-label="Login page">
+              Login
+            </Link>
+            <Link to="/signup" aria-label="Sign up page">
+              Signup
+            </Link>
           </>
         )}
       </nav>
