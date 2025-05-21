@@ -27,18 +27,30 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   };
 
   return (
-    <div className="post-card">
+    <article className="post-card" aria-labelledby={`post-title-${post.id}`}>
       {isEditing ? (
         <EditPostForm post={post} onCancel={handleCancelEdit} />
       ) : (
         <>
           <div className="post-header">
-            <h2>{post.title}</h2>
-            <div className="post-actions">
-              <button className="edit-btn" onClick={handleEdit}>
+            <h2 id={`post-title-${post.id}`}>{post.title}</h2>
+            <div
+              className="post-actions"
+              role="toolbar"
+              aria-label="Post actions"
+            >
+              <button
+                className="edit-btn"
+                onClick={handleEdit}
+                aria-label={`Edit post: ${post.title}`}
+              >
                 Edit
               </button>
-              <button className="delete-btn" onClick={handleDelete}>
+              <button
+                className="delete-btn"
+                onClick={handleDelete}
+                aria-label={`Delete post: ${post.title}`}
+              >
                 Delete
               </button>
             </div>
@@ -46,7 +58,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <p>{post.content}</p>
         </>
       )}
-    </div>
+    </article>
   );
 };
 

@@ -38,7 +38,11 @@ const NewPost: React.FC = () => {
       </div>
 
       <div className="post-form-container">
-        <form onSubmit={handleSubmit} className="post-form" role="form">
+        <form
+          onSubmit={handleSubmit}
+          className="post-form"
+          aria-label="Create new post form"
+        >
           <div className="form-group">
             <label htmlFor="title">Post Title</label>
             <input
@@ -48,13 +52,19 @@ const NewPost: React.FC = () => {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter a descriptive title..."
               className={errors.title ? "error" : ""}
+              aria-required="true"
+              aria-invalid={errors.title ? "true" : "false"}
+              aria-describedby="title-error title-count"
+              maxLength={maxTitleLength}
             />
             <div className="input-footer">
               {errors.title && (
-                <span className="error-message">{errors.title}</span>
+                <span id="title-error" className="error-message" role="alert">
+                  {errors.title}
+                </span>
               )}
-              <span className="char-count">
-                {title.length}/{maxTitleLength}
+              <span id="title-count" className="char-count" aria-live="polite">
+                {title.length}/{maxTitleLength} characters remaining
               </span>
             </div>
           </div>
@@ -68,13 +78,23 @@ const NewPost: React.FC = () => {
               placeholder="Write your post content here..."
               className={errors.content ? "error" : ""}
               rows={12}
+              aria-required="true"
+              aria-invalid={errors.content ? "true" : "false"}
+              aria-describedby="content-error content-count"
+              maxLength={maxContentLength}
             />
             <div className="input-footer">
               {errors.content && (
-                <span className="error-message">{errors.content}</span>
+                <span id="content-error" className="error-message" role="alert">
+                  {errors.content}
+                </span>
               )}
-              <span className="char-count">
-                {content.length}/{maxContentLength}
+              <span
+                id="content-count"
+                className="char-count"
+                aria-live="polite"
+              >
+                {content.length}/{maxContentLength} characters remaining
               </span>
             </div>
           </div>
