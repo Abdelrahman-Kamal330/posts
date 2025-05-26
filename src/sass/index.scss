@@ -1,0 +1,43 @@
+@use "./_App";
+
+/* Dashboard Page Styles */
+@use "./_Dashboard";
+
+/* Post Page Styles */
+@use "./_Posts";
+
+/* New posts Page Styles */
+@use "./_NewPosts";
+
+/* Navbar Styles */
+@use "./_Navbar";
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-stats,
+  .dashboard-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    h1 {
+      margin-bottom: 15px;
+    }
+  }
+
+  .post-form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .new-post-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    h1 {
+      margin-bottom: 15px;
+    }
+  }
+}
